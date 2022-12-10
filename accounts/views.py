@@ -3,17 +3,17 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth import login
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from knox.views import LoginView as KnoxLoginView
+from rest_framework.views import APIView
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
-from accounts.models import User, Profile, Address
+#from rest_framework import AuthToken
+from .serializers import UserSerializer, RegisterSerializer, ProfileSerializer, AddressSerializer
+from accounts.models import CustomUser, Profile, Address
 from django.contrib.auth.decorators import login_required
 
-class LoginAPI(KnoxLoginView):
+class LoginAPI(APIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = User.objects.all().select_related('User').select_related('Profile').select_related('Address')
+    queryset = CustomUser.objects.all().select_related('User').select_related('Profile').select_related('Address')
 
     def get(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
@@ -39,24 +39,25 @@ class RegisterAPI(generics.GenericAPIView):
         })
 
 class AddressAPI(generics.GenericAPIView):
-    SERIALIZER = RegisterSerializer
+    SERIALIZER = AddressSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        #model = Address
         addresses = Address.objects.all()
         return Response({"address": addresses})
 
 class ProfileAPI(generics.GenericAPIView):
-    SERIALIZER = RegisterSerializer
+    serializer_class= ProfileSerializer
 
     def get(self, request, *args, **kwargs):
        profiles = Profile.objects.all()
        return Response({"profile": profiles})
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        #model = Profile
         profiles = Profile.objects.all()
-        return Response({"profile": profiles})
-        serializer.save()
+        return Response({"profile": profiles})  
