@@ -12,14 +12,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)  
 
     USERNAME_FIELD = 'email'  
-    REQUIRED_FIELDS = []  
+    REQUIRED_FIELDS = []
   
     objects = CustomUserManager()  
       
-    def has_perm(self, perm, obj=None):  
-        "Does the user have a specific permission?"  
-        # Simplest possible answer: Yes, always  
-        return True  
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
     
     def is_staff(self):  
         "Is the user a member of staff?"  
