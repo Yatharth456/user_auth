@@ -52,33 +52,10 @@ class ProfileAPI(generics.GenericAPIView):
     serializer_class= ProfileSerializer
     permission_classes = [permissions.IsAuthenticated,]
 
-    # def get(self, request, *args, **kwargs):
-    #    profiles = Profile.objects.all()
-    #    return Response({"profile": request.data}) #check
-
     def post(self, request, *args, **kwargs):
         data = request.data
         data["users"] = request.user.id
-        print(data)
-        
-        #users = request.user.id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"profile": serializer.data})
-        #return Response({'id': request.user.id})
-        # print(request.data)
-        # data = request.data
-        # params = request.query_params
-        # params = request.GET
-        # id = params['id']
-        # id = params.get("id")
-
-        '''
-            to fetch user id( or details) from access token
-            use --> request.user.id ( or email, first_name....n)
-        '''
-        # email = request.user.email
-        # print(email)
-        #response = super(ProfileAPI, self).post(request, *args, **kwargs)
-        #token = Token.objects.get(key=response.data['token'])
