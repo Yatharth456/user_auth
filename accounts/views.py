@@ -4,21 +4,24 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.views import APIView
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from .serializers import UserSerializer, RegisterSerializer, ProfileSerializer, AddressSerializer
+from .serializers import UserListSerializer, RegisterSerializer, ProfileSerializer, AddressSerializer
 from accounts.models import CustomUser, Profile, Address
 from django.contrib.auth.decorators import login_required
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+from accounts.decorators import IsAdmin, IsEmployee, IsManager
 
 class LoginAPI(APIView):
+
     permission_classes = (permissions.AllowAny,)
-   
     def post(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         refresh = RefreshToken.for_user(user)
-
+        
         data = {
+            'role': user.role,
             'email': user.email,
             'refresh': str(refresh),
             'access': str(refresh.access_token),
@@ -31,8 +34,10 @@ class LoginAPI(APIView):
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+    #permission_classes = (permissions.AllowAny,)
 
-    def post(self, request, *args, **kwargs):
+
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -50,7 +55,7 @@ class AddressAPI(generics.GenericAPIView):
         return Response({"address": serializer.data})
 class ProfileAPI(generics.GenericAPIView):
     serializer_class= ProfileSerializer
-    permission_classes = [permissions.IsAuthenticated,]
+    permission_classes = [permissions.IsAuthenticated, IsAdmin]
 
     def post(self, request, *args, **kwargs):
         data = request.data

@@ -133,7 +133,10 @@ REST_FRAMEWORK = {
         #'knox.auth.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny']
 }
+
 from datetime import timedelta
 from django.conf import settings
 
