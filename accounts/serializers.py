@@ -55,6 +55,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         # user.role = role
         # user.save()
         return user
+        print(user)
 
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:

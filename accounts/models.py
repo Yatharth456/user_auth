@@ -3,8 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone  
 from django.utils.translation import gettext_lazy as _  
 from .managers import CustomUserManager 
-from rest_framework.response import Response
-from accounts.decorators import IsAdmin, IsManager, IsEmployee
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     # These fields tie to the roles!
