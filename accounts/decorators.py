@@ -24,7 +24,6 @@ from rest_framework import permissions
 
 class CustomerAccessPermission(permissions.BasePermission):
     message = 'Adding customers not allowed.'
-    print("adsfdgfhgjghhh=zzzzz==========")
     def has_permission(self, request, view):
         print(request.user.is_authenticated)
         # print("YDRHRDHGFTFUYG")
@@ -54,7 +53,7 @@ class CustomerAccessPermission(permissions.BasePermission):
 class AdminPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if request.user.role == "1":
+        if request.user.role == "1" or "2":
             return True
         return False
 
