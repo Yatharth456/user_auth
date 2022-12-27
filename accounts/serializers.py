@@ -47,7 +47,7 @@ class UserLoginSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id','email', 'password', 'first_name', 'last_name', 'role')
+        fields = ('id','email', 'password', 'first_name', 'last_name', 'role', 'hourly_rate')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -75,3 +75,9 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('id', 'users', 'address','mobile_no2')
+
+
+class UpdateHourlyRate(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('hourly_rate',)

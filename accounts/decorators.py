@@ -63,3 +63,10 @@ class ManagerPermission(permissions.BasePermission):
         if request.user.role == "2":
             return True
         return False
+
+class EmployeePermission(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.user.role == "3":
+            return True
+        return False
