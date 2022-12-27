@@ -29,6 +29,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)  
     is_staff = models.BooleanField(default=False)  
     is_active = models.BooleanField(default=True)
+    hourly_rate = models.IntegerField(blank=False, default=5)
+
 
     USERNAME_FIELD = 'email'  
     REQUIRED_FIELDS = []

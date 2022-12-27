@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 import jwt
 from datetime import timezone, datetime, timedelta
-from accounts.decorators import CustomerAccessPermission, AdminPermission, ManagerPermission
+from accounts.decorators import CustomerAccessPermission, AdminPermission, ManagerPermission, EmployeePermission
 #from accounts.serializers import MyTokenObtainPairSerializer
 # from rest_framework_simplejwt.views import TokenObtainPairView
 # from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -107,7 +107,7 @@ class AllProfileAPI(generics.GenericAPIView):
 
 class managerAPI(generics.GenericAPIView):
     serializer_class= AddressSerializer
-    permission_classes = [permissions.IsAuthenticated, ManagerPermission]
+    permission_classes = [permissions.IsAuthenticated,]
  
     def get(self, request, *args, **kwargs):
         addresses = Address.objects.all()
